@@ -4,19 +4,21 @@ import { useState } from "react";
 import Img from "../../src/fon.png";
 import { getDatabase, ref, set } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "store/slices/userSlice";
 
 const { TextArea } = Input;
 
 const HomePage = () => {
+	const user = useSelector((state) => state.user)
+	console.log(user.id)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [val, setVal] = useState("");
   const onFinish = (values) => {
     const db = getDatabase();
     const idO = Date.now();
-    set(ref(db, "orders/" + idO), {
+    set(ref(db, "orders/" + user.id + "/" +idO), {
       id: idO,
       theme: values.theme,
       discription: values.discription,

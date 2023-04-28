@@ -80,7 +80,6 @@ const OrdersPage = () => {
     onValue(Data, (snapshot) => {
       const data = snapshot.val();
       setOrders(Object.values(data));
-      console.log(orders);
     });
   }, []);
 

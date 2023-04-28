@@ -21,7 +21,6 @@ const LoginPage = () => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        console.log(user);
         dispatch(
           setUser({
             email: user.email,
@@ -29,7 +28,6 @@ const LoginPage = () => {
             token: user.acsessToken,
           })
         );
-        console.log(email, password);
         navigate("/create_order");
       })
       .catch((e) => {
