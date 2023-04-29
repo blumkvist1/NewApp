@@ -1,7 +1,7 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Upload, Col, Row, Card } from "antd";
 import { useState } from "react";
-import Img from "../../src/fon.png";
+import Img from "../fon.png";
 import { getDatabase, ref, set } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +35,8 @@ const HomePage = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
+			justifyContent: "end",
+			 alignItems: "center",
         }}
       >
         <Button type="dashed" style={{ margin: 10 }}>
@@ -135,4 +135,5 @@ const HomePage = () => {
     </div>
   );
 };
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => <HomePage />;

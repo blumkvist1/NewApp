@@ -1,6 +1,6 @@
 import { Card, Button, Table, Tag } from "antd";
 import { useState, useEffect } from "react";
-import Img from "../../src/fon.png";
+import Img from "../fon.png";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";

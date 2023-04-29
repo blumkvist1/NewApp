@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "store/slices/userSlice";
 import { useNavigate, redirect } from "react-router-dom";
 import { Content } from "antd/es/layout/layout";
-import Img from "../../src/fon.png";
+import Img from "../fon.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState();
