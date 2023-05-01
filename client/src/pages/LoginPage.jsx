@@ -1,13 +1,12 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Card } from "antd";
+import { Button, Form, Input, Card } from "antd";
 import { useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-
 import { setUser } from "store/slices/userSlice";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Content } from "antd/es/layout/layout";
 import Img from "../fon.png";
+import { getUser, login } from "../http/userApi";
 
 const LoginPage = () => {
   const [email, setEmail] = useState();
@@ -16,28 +15,35 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
   const handleLogin = (email, password) => {
-    console.log(email, password);
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.acsessToken,
-          })
-        );
-        navigate("/create_order");
-      })
-      .catch((e) => {
-        alert("Error: " + e.message);
-      });
+    try {
+      login(email, password);
+    getUser(email).then((data)=>{
+      console.log(data);
+      dispatch(
+        setUser({
+          email: data.email,
+          id: data.id,
+          token: data.acsessToken,
+          role: data.role,
+        })
+      );});
+      navigate("/orders");
+    } catch (e) {}
+    // const user = login(email, password);
+    // console.log(user);
+    //  user.then((value) => {
+    // 		console.log(value)
+
+    //    })
+    //    .catch((e) => alert(e.message));
   };
 
   const onFinish = () => {
     handleLogin(email, password);
   };
+
   return (
     <Content>
       <div

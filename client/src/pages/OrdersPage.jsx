@@ -1,10 +1,11 @@
 import { Card, Button, Table, Tag } from "antd";
 import { useState, useEffect } from "react";
 import Img from "../fon.png";
-import { getDatabase, ref, onValue } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "store/slices/userSlice";
+import { fetchOrders } from "http/orderApi";
+import userEvent from "@testing-library/user-event";
 
 const columns = [
   {
@@ -70,18 +71,15 @@ const columns = [
 
 const OrdersPage = () => {
   const navigate = useNavigate();
-
+  const user = useSelector((store) => store.user);
+  console.log(user.id)
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const db = getDatabase();
-
-    const Data = ref(db, "orders/");
-    onValue(Data, (snapshot) => {
-      const data = snapshot.val();
+    fetchOrders(user.id).then((data) => {
       setOrders(Object.values(data));
     });
-  }, []);
+  }, [user]);
 
   return (
     <div style={{ height: "100%", backgroundImage: `url(${Img})` }}>

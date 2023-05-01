@@ -2,10 +2,10 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Upload, Col, Row, Card } from "antd";
 import { useState } from "react";
 import Img from "../fon.png";
-import { getDatabase, ref, set } from "firebase/database";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "store/slices/userSlice";
+import { createOrder } from "http/orderApi";
 
 const { TextArea } = Input;
 
@@ -16,17 +16,22 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [val, setVal] = useState("");
   const onFinish = (values) => {
-    const db = getDatabase();
-    const idO = Date.now();
-    set(ref(db, "orders/" + user.id + "/" +idO), {
-      id: idO,
-      theme: values.theme,
-      discription: values.discription,
-      fullname: values.fullname,
-      phone: values.phone,
-      important: values.important,
-      place: values.place,
-    });
+	let order = values;
+	order.status = "В обработке"
+	console.log(order);
+	createOrder(order, user.id)
+
+   //  const db = getDatabase();
+   //  const idO = Date.now();
+   //  set(ref(db, "orders/" + user.id + "/" +idO), {
+   //    id: idO,
+   //    theme: values.theme,
+   //    discription: values.discription,
+   //    fullname: values.fullname,
+   //    phone: values.phone,
+   //    important: values.important,
+   //    place: values.place,
+   //  });
     navigate("/orders");
   };
 
@@ -78,9 +83,6 @@ const HomePage = () => {
                   <TextArea rows={5} />
                 </Form.Item>
 
-                <Form.Item label="ФИО" name="fullname" value={val}>
-                  <Input />
-                </Form.Item>
               </Col>
               <Col span={10} offset={4}>
                 <Form.Item label="Телефон (123-456):" name="phone" value={val}>
@@ -117,11 +119,6 @@ const HomePage = () => {
                   </Select>
                 </Form.Item>
 
-                <Form.Item label="" valuePropName="fileList">
-                  <Upload>
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                  </Upload>
-                </Form.Item>
                 <Form.Item>
                   <Button htmlType="submit" type="primary">
                     Отправить

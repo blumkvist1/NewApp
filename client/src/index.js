@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "store";
-import "./firebase";
+
 import {
   createBrowserRouter,
   RouterProvider,

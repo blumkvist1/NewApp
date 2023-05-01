@@ -29,15 +29,19 @@ class CustomerOrderController {
   async getAllCustomerOrders(req, res) {
     const { userId } = req.params;
 
-    let userOrders = [];
-    const orders = await CustomerOrder.findAll({
-      where: { userId },
-      include: [{ model: Order }],
-    });
-    orders.map((order) => {
-      userOrders.push(order.order);
-    });
-    return res.json(userOrders);
+    try {
+      let userOrders = [];
+      const orders = await CustomerOrder.findAll({
+        where: { userId },
+        include: [{ model: Order }],
+      });
+      orders.map((order) => {
+        userOrders.push(order.order);
+      });
+      return res.json(userOrders);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async getOne(req, res) {
