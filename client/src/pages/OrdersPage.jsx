@@ -3,16 +3,25 @@ import { useState, useEffect } from "react";
 import Img from "../fon.png";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "store/slices/userSlice";
+import { removeUser, setUser } from "store/slices/userSlice";
 import { fetchOrders } from "http/orderApi";
-import userEvent from "@testing-library/user-event";
+import { check } from "http/userApi";
+import { toDate } from "helpers/dateTime";
 
 const columns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+    render: (id) => <Link to={`${id}`}>{id}</Link>,
+  },
   {
     title: "Тема",
     dataIndex: "theme",
     key: "theme",
-    render: (text) => <a>{text}</a>,
+    render: (text) => (
+      <a style={{ color: "black", cursor: "default" }}>{text}</a>
+    ),
   },
   {
     title: "Описание",
@@ -20,21 +29,15 @@ const columns = [
     key: "discription",
     render: (text) => {
       if (text.length > 100) {
-        return <a>{text.substr(0, 50)}...</a>;
+        return (
+          <a style={{ color: "black", cursor: "default" }}>
+            {text.substr(0, 50)}...
+          </a>
+        );
       } else {
-        return <a>{text}</a>;
+        return <a style={{ color: "black", cursor: "default" }}>{text}</a>;
       }
     },
-  },
-  {
-    title: "ФИО",
-    dataIndex: "fullname",
-    key: "fullname",
-  },
-  {
-    title: "Телефон",
-    dataIndex: "phone",
-    key: "phone",
   },
   {
     title: "Важность",
@@ -67,18 +70,42 @@ const columns = [
     dataIndex: "place",
     key: "place",
   },
+  {
+    title: "Статус",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Дата создания",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render: (text) => (
+      <a style={{ color: "black", cursor: "default" }}>{toDate(text)}</a>
+    ),
+  },
 ];
 
 const OrdersPage = () => {
-  const navigate = useNavigate();
   const user = useSelector((store) => store.user);
-  console.log(user.id)
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetchOrders(user.id).then((data) => {
-      setOrders(Object.values(data));
-    });
+    if (user.id === null) {
+      check().then((data) => {
+        dispatch(
+          setUser({
+            email: data.email,
+            id: data.id,
+            token: data.acsessToken,
+            role: data.role,
+          })
+        );
+      });
+    } else {
+      fetchOrders(user.id).then((data) => {
+        setOrders(Object.values(data));
+      });
+    }
   }, [user]);
 
   return (
@@ -110,12 +137,12 @@ const OrdersPage = () => {
       >
         <Card
           title="Мои заявки"
-          style={{ width: "60%", marginBottom: 5, height: "95vh" }}
+          style={{ width: "80%", marginBottom: 5, height: "95vh" }}
         >
           <Table
             columns={columns}
             dataSource={orders}
-            style={{ height: "80vh" }}
+            style={{ height: "80vh", width: "100%" }}
           />
         </Card>
       </div>
