@@ -1,5 +1,4 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Select, Upload, Col, Row, Card } from "antd";
+import { Button, Form, Input, Select, Col, Row, Card, message } from "antd";
 import { useState } from "react";
 import Img from "../fon.png";
 import { useNavigate, Link } from "react-router-dom";
@@ -10,29 +9,21 @@ import { createOrder } from "http/orderApi";
 const { TextArea } = Input;
 
 const HomePage = () => {
-	const user = useSelector((state) => state.user)
-	console.log(user.id)
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [val, setVal] = useState("");
-  const onFinish = (values) => {
-	let order = values;
-	order.status = "В обработке"
-	console.log(order);
-	createOrder(order, user.id)
 
-   //  const db = getDatabase();
-   //  const idO = Date.now();
-   //  set(ref(db, "orders/" + user.id + "/" +idO), {
-   //    id: idO,
-   //    theme: values.theme,
-   //    discription: values.discription,
-   //    fullname: values.fullname,
-   //    phone: values.phone,
-   //    important: values.important,
-   //    place: values.place,
-   //  });
-    navigate("/orders");
+  const onFinish = (values) => {
+    if (user.id === null) {
+      navigate("/login");
+    } else {
+      let order = values;
+      order.status = "В обработке";
+      createOrder(order, user.id);
+      setVal("");
+      message.success("Завка успешно отправлена!");
+    }
   };
 
   return (
@@ -40,8 +31,8 @@ const HomePage = () => {
       <div
         style={{
           display: "flex",
-			justifyContent: "end",
-			 alignItems: "center",
+          justifyContent: "end",
+          alignItems: "center",
         }}
       >
         <Button type="dashed" style={{ margin: 10 }}>
@@ -82,7 +73,6 @@ const HomePage = () => {
                 <Form.Item label="Описание:" name="discription" value={val}>
                   <TextArea rows={5} />
                 </Form.Item>
-
               </Col>
               <Col span={10} offset={4}>
                 <Form.Item label="Телефон (123-456):" name="phone" value={val}>

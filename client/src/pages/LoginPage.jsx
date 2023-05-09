@@ -19,25 +19,18 @@ const LoginPage = () => {
   const handleLogin = (email, password) => {
     try {
       login(email, password);
-    getUser(email).then((data)=>{
-      console.log(data);
-      dispatch(
-        setUser({
-          email: data.email,
-          id: data.id,
-          token: data.acsessToken,
-          role: data.role,
-        })
-      );});
+      getUser(email).then((data) => {
+        dispatch(
+          setUser({
+            email: data.email,
+            id: data.id,
+            token: data.acsessToken,
+            role: data.role,
+          })
+        );
+      });
       navigate("/orders");
     } catch (e) {}
-    // const user = login(email, password);
-    // console.log(user);
-    //  user.then((value) => {
-    // 		console.log(value)
-
-    //    })
-    //    .catch((e) => alert(e.message));
   };
 
   const onFinish = () => {
