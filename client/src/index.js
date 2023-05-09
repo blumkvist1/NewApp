@@ -6,12 +6,11 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "store";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "pages/HomePage";
 import OrdersPage from "pages/OrdersPage";
+import LoginPage from "pages/LoginPage";
+import OneOrderPage, { loader as orderLoader } from "pages/OneOrderPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +24,15 @@ const router = createBrowserRouter([
   {
     path: "/orders",
     element: <OrdersPage />,
+  },
+  {
+    path: "/orders/:id",
+    loader: orderLoader,
+    element: <OneOrderPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
