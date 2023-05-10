@@ -4,7 +4,7 @@ import Img from "../fon.png";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser, setUser } from "store/slices/userSlice";
-import { fetchOrders, fetchExecutorOrders } from "http/orderApi";
+import { fetchAllOrders } from "http/orderApi";
 import { check } from "http/userApi";
 import { toDate } from "helpers/dateTime";
 
@@ -13,7 +13,7 @@ const columns = [
     title: "ID",
     dataIndex: "id",
     key: "id",
-    render: (id) => <Link to={`${id}`}>{id}</Link>,
+    render: (id) => <Link to={`/orders/${id}`}>{id}</Link>,
   },
   {
     title: "Тема",
@@ -71,32 +71,6 @@ const columns = [
     key: "place",
   },
   {
-    title: "Статус",
-    dataIndex: "status",
-    key: "status",
-	 render: (text) => {
-      if (text === "В обработке") {
-        return (
-          <Tag color="#1F51FF" key={text}>
-            {text}
-          </Tag>
-        );
-      } else if (text === "Готово") {
-        return (
-          <Tag color="#4CBB17" key={text}>
-            {text}
-          </Tag>
-        );
-      } else {
-        return (
-          <Tag color="#f50" key={text}>
-            {text}
-          </Tag>
-        );
-      }
-    },
-  },
-  {
     title: "Дата создания",
     dataIndex: "createdAt",
     key: "createdAt",
@@ -104,9 +78,17 @@ const columns = [
       <a style={{ color: "black", cursor: "default" }}>{toDate(text)}</a>
     ),
   },
+  {
+    title: "Исполнитель",
+    dataIndex: "action",
+    key: "action",
+    render: (_, record) => (
+      <Link to={`/orders/${record.id}`}>Взять в работу</Link>
+    ),
+  },
 ];
 
-const OrdersPage = () => {
+const AllOrdersPage = () => {
   const user = useSelector((store) => store.user);
 
   const dispatch = useDispatch();
@@ -124,17 +106,12 @@ const OrdersPage = () => {
         );
       });
     } else {
-      if (user.role === "EXECUTOR") {
-        fetchExecutorOrders(user.id).then((data) => {
-          setOrders(Object.values(data));
-        });
-      } else {
-        fetchOrders(user.id).then((data) => {
-          setOrders(Object.values(data));
-        });
-      }
+      fetchAllOrders().then((data) => {
+        setOrders(Object.values(data));
+      });
     }
-    }, [user]);
+  }, [user]);
+
   return (
     <div style={{ height: "100%", backgroundImage: `url(${Img})` }}>
       <div
@@ -144,16 +121,9 @@ const OrdersPage = () => {
           alignItems: "center",
         }}
       >
-        {user.role === "EXECUTOR" ? (
-          <Button type="dashed" style={{ margin: 10 }}>
-            <Link to="/all_orders">Все заявки</Link>
-          </Button>
-        ) : (
-          <Button type="dashed" style={{ margin: 10 }}>
-            <Link to="/create_order">Создать заявку</Link>
-          </Button>
-        )}
-
+        <Button type="dashed" style={{ margin: 10 }}>
+          <Link to="/orders">Мои заявки</Link>
+        </Button>
         <Button
           type="default"
           style={{ margin: 10 }}
@@ -170,8 +140,8 @@ const OrdersPage = () => {
         }}
       >
         <Card
-          title="Мои заявки"
-          style={{ width: "85%", marginBottom: 5, height: "95vh" }}
+          title="Все заявки"
+          style={{ width: "80%", marginBottom: 5, height: "95vh" }}
         >
           <Table
             columns={columns}
@@ -184,4 +154,4 @@ const OrdersPage = () => {
   );
 };
 
-export default () => <OrdersPage />;
+export default () => <AllOrdersPage />;

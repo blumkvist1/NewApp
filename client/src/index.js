@@ -11,6 +11,7 @@ import HomePage from "pages/HomePage";
 import OrdersPage from "pages/OrdersPage";
 import LoginPage from "pages/LoginPage";
 import OneOrderPage, { loader as orderLoader } from "pages/OneOrderPage";
+import AllOrdersPage from "pages/AllOrdersPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/orders",
     element: <OrdersPage />,
+  },
+  {
+    path: "/all_orders",
+    element: <AllOrdersPage />,
   },
   {
     path: "/orders/:id",

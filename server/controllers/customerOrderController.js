@@ -1,4 +1,9 @@
-const { Order, ExecutorOrder, CustomerOrder } = require("../models/model");
+const {
+  Order,
+  ExecutorOrder,
+  CustomerOrder,
+  User,
+} = require("../models/model");
 const ApiError = require("../error/ApiError");
 
 class CustomerOrderController {
@@ -48,6 +53,10 @@ class CustomerOrderController {
     const { id } = req.params;
     const order = await Order.findOne({
       where: { id },
+      include: [
+        { model: CustomerOrder, include: [{ model: User }] },
+        { model: ExecutorOrder, include: [{ model: User }] },
+      ],
     });
     return res.json(order);
   }

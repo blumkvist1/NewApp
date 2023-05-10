@@ -7,6 +7,6 @@ router.post(
   executorOrderController.changeStatusOrder
 );
 router.get("/:userId/orders", executorOrderController.getAllExecutorOrders);
-router.get("/orders_all", executorOrderController.getAllOrders);
+router.get("/orders", executorOrderController.getAllOrders);
 router.get("/orders/:id", executorOrderController.getOne);
 module.exports = router;
