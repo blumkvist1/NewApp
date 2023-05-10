@@ -93,8 +93,8 @@ const HomePage = () => {
                       Очень важно
                     </Select.Option>
                     <Select.Option value="Важно">Важно</Select.Option>
-                    <Select.Option value="Не требует срочночти">
-                      Не требует срочночти
+                    <Select.Option value="Не требует срочности">
+                      Не требует срочности
                     </Select.Option>
                   </Select>
                 </Form.Item>

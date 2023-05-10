@@ -1,7 +1,7 @@
 import { Card, Button, Col, Row, Select, Tag } from "antd";
 import { useState, useEffect } from "react";
 import Img from "../fon.png";
-import { useNavigate, Link, useLoaderData, NavLink } from "react-router-dom";
+import { Link, useLoaderData, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser, setUser } from "store/slices/userSlice";
 import { fetchOneOrder, changeStatus } from "http/orderApi";
@@ -17,7 +17,6 @@ const OneOrderPage = () => {
   const user = useSelector((store) => store.user);
   let order = useLoaderData();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [status, setStatus] = useState("В обработке");
   order = order.order;
 

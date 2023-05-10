@@ -1,7 +1,7 @@
 import { Card, Button, Table, Tag } from "antd";
 import { useState, useEffect } from "react";
 import Img from "../fon.png";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser, setUser } from "store/slices/userSlice";
 import { fetchOrders, fetchExecutorOrders } from "http/orderApi";
@@ -74,7 +74,7 @@ const columns = [
     title: "Статус",
     dataIndex: "status",
     key: "status",
-	 render: (text) => {
+    render: (text) => {
       if (text === "В обработке") {
         return (
           <Tag color="#1F51FF" key={text}>
@@ -134,7 +134,7 @@ const OrdersPage = () => {
         });
       }
     }
-    }, [user]);
+  }, [user]);
   return (
     <div style={{ height: "100%", backgroundImage: `url(${Img})` }}>
       <div

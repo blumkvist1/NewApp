@@ -4,7 +4,6 @@ const {
   CustomerOrder,
   User,
 } = require("../models/model");
-const ApiError = require("../error/ApiError");
 
 class CustomerOrderController {
   async create(req, res) {

@@ -1,5 +1,4 @@
-const { Order, ExecutorOrder, CustomerOrder } = require("../models/model");
-const ApiError = require("../error/ApiError");
+const { Order, ExecutorOrder } = require("../models/model");
 
 class ExecutorOrderController {
   async changeStatusOrder(req, res) {

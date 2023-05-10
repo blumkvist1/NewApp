@@ -40,15 +40,15 @@ CustomerOrder.belongsTo(Order);
 Order.hasOne(ExecutorOrder);
 ExecutorOrder.belongsTo(Order);
 
-ExecutorOrder.hasOne(Order)
-Order.belongsTo(ExecutorOrder)
+ExecutorOrder.hasOne(Order);
+Order.belongsTo(ExecutorOrder);
 
-CustomerOrder.hasOne(Order)
-Order.belongsTo(CustomerOrder)
+CustomerOrder.hasOne(Order);
+Order.belongsTo(CustomerOrder);
 
 module.exports = {
-	User,
-	ExecutorOrder,
-	CustomerOrder,
-	Order
-}
+  User,
+  ExecutorOrder,
+  CustomerOrder,
+  Order,
+};

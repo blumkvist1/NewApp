@@ -1,7 +1,7 @@
 import { Card, Button, Table, Tag } from "antd";
 import { useState, useEffect } from "react";
 import Img from "../fon.png";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser, setUser } from "store/slices/userSlice";
 import { fetchAllOrders } from "http/orderApi";

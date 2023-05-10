@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Card } from "antd";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Content } from "antd/es/layout/layout";
@@ -11,8 +11,6 @@ import { getUser, login } from "../http/userApi";
 let role;
 
 const LoginPage = () => {
-  const user = useSelector((store) => store.user);
-
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -20,7 +18,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const handleLogin = async(email, password) => {
+  const handleLogin = async (email, password) => {
     try {
       login(email, password);
       await getUser(email).then((data) => {
